@@ -1,5 +1,6 @@
 // Uncomment the code below and write your tests
 import { getBankAccount, InsufficientFundsError, TransferFailedError, SynchronizationFailedError } from '.';
+import random from 'lodash';
 
 describe('BankAccount', () => {
   const initialBalance = 10000;
@@ -51,9 +52,12 @@ describe('BankAccount', () => {
   });
 
   test('fetchBalance should return number in case if request did not failed', async () => {
+    const randomSpy = jest.spyOn(random, 'random');
+    randomSpy.mockReturnValue(1);
     const balance = await newAccount2.fetchBalance();
 
     expect(typeof balance).toBe('number');
+    randomSpy.mockRestore();
   });
 
   test('should set new balance if fetchBalance returned number', async () => {
